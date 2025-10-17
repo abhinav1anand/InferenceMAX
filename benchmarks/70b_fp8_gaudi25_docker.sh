@@ -12,11 +12,8 @@
 pip install -q datasets pandas
 
 cat > config.yaml << EOF
-kv-cache-dtype: fp8_inc
 async-scheduling: true
 no-enable-prefix-caching: true
-quantization: inc
-weights-load-device: cpu
 max-num-batched-tokens: 8192
 max-model-len: 10240
 EOF
@@ -29,4 +26,9 @@ vllm serve $MODEL --host=0.0.0.0 --port=$PORT \
 --device=hpu \
 --tensor-parallel-size=$TP \
 --max-num-seqs=$CONC \
---disable-log-requests
+--dtype=bfloat16 \
+--disable-log-requests \
+--disable-log-stats \
+--quantization=inc \
+--weights-load-device=cpu \
+--kv-cache-dtype=fp8_inc \
