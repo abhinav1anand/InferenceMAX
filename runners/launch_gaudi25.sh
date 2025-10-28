@@ -1,8 +1,8 @@
 #!/usr/bin/bash
 
 #HF_HUB_CACHE_MOUNT="/home/ubuntu/hf_hub_cache/"
-HF_HUB_CACHE_MOUNT="/home/ubuntu/hf_hub_cache/"
-PORT=8888
+HF_HUB_CACHE_MOUNT="/mnt/hf_cache/"
+PORT=8000
 
 server_name="bmk-server"
 client_name="bmk-client"
@@ -10,9 +10,9 @@ client_name="bmk-client"
 set -x
 docker run --rm -d --network=host --name=$server_name \
 --runtime=habana --cap-add=sys_nice -v /software/data/pytorch/huggingface/hub:/root/.cache/huggingface/hub --privileged --ipc=host --shm-size=16g \
--v /software:/software \
+-v /mnt:/mnt \
 -v $HF_HUB_CACHE_MOUNT:$HF_HUB_CACHE \
--v $GITHUB_WORKSPACE:/work/ -w /work/ \
+-v $GITHUB_WORKSPACE:/mnt/data/ -w /mnt/data/ \
 -e HF_TOKEN -e HF_HUB_CACHE -e MODEL -e TP -e CONC -e MAX_MODEL_LEN -e ISL -e OSL -e PORT=$PORT \
 -e HABANA_VISIBLE_DEVICES=all \
 --entrypoint=/bin/bash \
@@ -36,7 +36,7 @@ git clone https://github.com/kimbochen/bench_serving.git
 
 set -x
 docker run --rm --network=host --name=$client_name \
--v $GITHUB_WORKSPACE:/work/ -w /work/ \
+-v $GITHUB_WORKSPACE:/mnt/data/ -w /mnt/data/ \
 -e HF_TOKEN -e PYTHONPYCACHEPREFIX=/tmp/pycache/ \
 --entrypoint=/bin/bash \
 $IMAGE \
