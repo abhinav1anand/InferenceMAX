@@ -11,6 +11,9 @@ set -x
 docker run --rm -d --network=host --name=$server_name \
 --runtime=habana --cap-add=sys_nice -v /mnt/hf_cache:/root/.cache/huggingface/hub --privileged --ipc=host --shm-size=16g \
 -v /mnt:/mnt \
+-e HTTPS_PROXY=$HTTPS_PROXY \
+-e HTTP_PROXY=$HTTP_PROXY \
+-e NO_PROXY=$NO_PROXY \
 -v $HF_HUB_CACHE_MOUNT:$HF_HUB_CACHE \
 -v $GITHUB_WORKSPACE:/work/ -w /work/ \
 -e HF_TOKEN -e HF_HUB_CACHE -e MODEL -e TP -e CONC -e MAX_MODEL_LEN -e ISL -e OSL -e PORT=$PORT \
