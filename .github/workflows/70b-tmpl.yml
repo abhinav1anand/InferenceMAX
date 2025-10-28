@@ -190,7 +190,7 @@ jobs:
       image: 'vault.habana.ai/gaudi-docker/1.22.0/ubuntu24.04/habanalabs/vllm-installer-2.7.1:latest'
       model: 'meta-llama/Llama-3.3-70B-Instruct'
       framework: 'vllm'
-      precision: 'bfloat16'
+      precision: 'bf16'
       exp-name: ${{ inputs.exp-name }}
       isl: ${{ inputs.isl }}
       osl: ${{ inputs.osl }}
