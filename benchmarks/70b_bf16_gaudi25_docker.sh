@@ -26,4 +26,5 @@ vllm serve $MODEL --host=0.0.0.0 --port=$PORT \
 --device=hpu \
 --tensor-parallel-size=$TP \
 --max-num-seqs=$CONC \
+--gpu-memory-utilization=0.95 \
 --disable-log-requests
