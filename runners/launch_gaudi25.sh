@@ -9,10 +9,10 @@ client_name="bmk-client"
 
 set -x
 docker run --rm -d --network=host --name=$server_name \
---runtime=habana --cap-add=sys_nice -v /software/data/pytorch/huggingface/hub:/root/.cache/huggingface/hub --privileged --ipc=host --shm-size=16g \
+--runtime=habana --cap-add=sys_nice -v /mnt/hf_cache:/root/.cache/huggingface/hub --privileged --ipc=host --shm-size=16g \
 -v /mnt:/mnt \
 -v $HF_HUB_CACHE_MOUNT:$HF_HUB_CACHE \
--v $GITHUB_WORKSPACE:/mnt/data/ -w /mnt/data/ \
+-v $GITHUB_WORKSPACE:/work/ -w /work/ \
 -e HF_TOKEN -e HF_HUB_CACHE -e MODEL -e TP -e CONC -e MAX_MODEL_LEN -e ISL -e OSL -e PORT=$PORT \
 -e HABANA_VISIBLE_DEVICES=all \
 --entrypoint=/bin/bash \
