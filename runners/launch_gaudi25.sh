@@ -39,7 +39,10 @@ git clone https://github.com/kimbochen/bench_serving.git
 
 set -x
 docker run --rm --network=host --name=$client_name \
--v $GITHUB_WORKSPACE:/mnt/data/ -w /mnt/data/ \
+-e HTTPS_PROXY=$HTTPS_PROXY \
+-e HTTP_PROXY=$HTTP_PROXY \
+-e NO_PROXY=$NO_PROXY \
+-v $GITHUB_WORKSPACE:/work/ -w /work/ \
 -e HF_TOKEN -e PYTHONPYCACHEPREFIX=/tmp/pycache/ \
 --entrypoint=/bin/bash \
 $IMAGE \
