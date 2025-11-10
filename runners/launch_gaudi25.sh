@@ -7,6 +7,9 @@ PORT=8000
 server_name="bmk-server"
 client_name="bmk-client"
 
+git clone https://github.com/vllm-project/vllm-gaudi.git
+cd vllm-gaudi/.cd/
+
 set -x
 docker run --rm -d --network=host --name=$server_name \
 --runtime=habana --cap-add=sys_nice -v /mnt/hf_cache:/root/.cache/huggingface/hub --privileged --ipc=host --shm-size=16g \
@@ -34,6 +37,8 @@ if ! docker ps --format "{{.Names}}" | grep -q "$server_name"; then
     echo "Server container launch failed."
     exit 1
 fi
+
+cd ../..
 
 git clone https://github.com/kimbochen/bench_serving.git
 
